@@ -3,26 +3,30 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
 x = []
-def bres(x,y,xend,yend):
-    dx = abs(xend - x)
-    dy = abs(yend - y)
+def bres(x0,y0,xend,yend):
+    dx = abs(xend - x0)/10000
+    dy = abs(yend - y0)/10000
     p = 2 * dy - dx
     twody = 2 *dy
     twodymiusdx = 2 * (dy - dx)
     glBegin(GL_POINTS)
-    if x > xend:
+
+    if x0 > xend:
         x = xend
         y = yend
-        xend = x
-    
+        xend = x0
+    else:
+        x = x0
+        y = y0
+
     glVertex2d(x,y)
 
     while x < xend:
-        x += 1
+        x += 0.0001
         if p < 0:
             p += twody
         else:
-            y += 1
+            y += 0.0001
             p += twodymiusdx
         glVertex2d(x,y)
     glEnd()
