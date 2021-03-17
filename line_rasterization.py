@@ -3,15 +3,15 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
 x = []
+
 def bres(x0,y0,xend,yend):
     dx = abs(xend - x0)
     dy = abs(yend - y0)
     p = 2 * dy - dx
     twody = 2 *dy
     twodymiusdx = 2 * (dy - dx)
-    glPointSize(5)
+    #glPointSize(5)
     glBegin(GL_POINTS)
-
     if x0 > xend:
         x = xend
         y = yend
@@ -19,8 +19,7 @@ def bres(x0,y0,xend,yend):
     else:
         x = x0
         y = y0
-
-    glVertex2d(x,y)
+    glVertex2f(x,y)
 
     while x < xend:
         x += 1
@@ -29,7 +28,7 @@ def bres(x0,y0,xend,yend):
         else:
             y += 1
             p += twodymiusdx
-        glVertex2d(x,y)
+        glVertex2i(x,y)
     glEnd()
     glFlush()
 def init():
@@ -37,7 +36,7 @@ def init():
     x = [int(x) for x in input().split(",")]
     glClearColor(1,1,1,0)
     glMatrixMode(GL_PROJECTION)
-    gluOrtho2D(0.0,200.0,0.0,150.0)
+    gluOrtho2D(0.0,400.0,0.0,400.0)
 
 
 def start():
