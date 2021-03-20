@@ -16,6 +16,9 @@ def bres(x0,y0,xend,yend):
         x = xend
         y = yend
         xend = x0
+    elif yend > xend:
+        xend,yend = yend,xend
+        x,y = y0,x0
     else:
         x = x0
         y = y0
