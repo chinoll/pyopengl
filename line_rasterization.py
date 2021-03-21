@@ -16,13 +16,14 @@ def antialiasing(x,y):
             glColor3f(rgb[0],rgb[1],rgb[2])
             glVertex2i(x + j,y-i)
 
-def bres(x0,y0,xend,yend):
+def bres(x0,y0,xend,yend,width):
     dx = abs(xend - x0)
     dy = abs(yend - y0)
     p = 2 * dy - dx
     twody = 2 *dy
     twodymiusdx = 2 * (dy - dx)
     #glPointSize(5)
+    #print(x0 == xend and y0 < yend)
     glBegin(GL_POINTS)
     if x0 > xend:
         x = xend
@@ -34,7 +35,7 @@ def bres(x0,y0,xend,yend):
     else:
         x = x0
         y = y0
-    glVertex2f(x,y)
+    antialiasing(x,y)
 
     while x < xend:
         x += 1
@@ -44,6 +45,12 @@ def bres(x0,y0,xend,yend):
             y += 1
             p += twodymiusdx
         antialiasing(x,y)
+        if x0 >y0:
+            for i in range(1,width+1):
+                antialiasing(x,y+i)
+        else:
+            for i in range(1,width+1):
+                antialiasing(x+i,y)
     glEnd()
     glFlush()
 def init():
@@ -55,7 +62,7 @@ def init():
 
 
 def start():
-    bres(x[0],x[1],x[2],x[3])
+    bres(x[0],x[1],x[2],x[3],x[4])
 glutInit()
 glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB)
 glutInitWindowSize(400,400)
