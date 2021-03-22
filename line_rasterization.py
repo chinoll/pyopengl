@@ -5,8 +5,8 @@ from OpenGL.GLUT import *
 import colorsys
 x = []
 def antialiasing(x,y):
-    hsv = colorsys.rgb_to_hsv(255,255,255)[2] / 4
-    mask = (np.array([[1,2,1],[2,4,2],[1,2,1]]) * hsv).astype(np.int16)
+    hsv = colorsys.rgb_to_hsv(255,255,255)[2] / 128
+    mask = (np.array([[96,112,96],[112,128,112],[96,112,96]]) * hsv).astype(np.int16)
     x -= 1
     y += 1
     for i in range(3):
@@ -15,26 +15,60 @@ def antialiasing(x,y):
             rgb = list(rgb)
             glColor3f(rgb[0],rgb[1],rgb[2])
             glVertex2i(x + j,y-i)
-
-def bres(x0,y0,xend,yend,width):
+def bresenhamLine(x0,y0,xend,yend,width=1):
     dx = abs(xend - x0)
     dy = abs(yend - y0)
     p = 2 * dy - dx
-    twody = 2 *dy
-    twodymiusdx = 2 * (dy - dx)
-    #glPointSize(5)
-    #print(x0 == xend and y0 < yend)
     glBegin(GL_POINTS)
-    if x0 > xend:
-        x = xend
-        y = yend
-        xend = x0
-    elif yend > xend:
-        xend,yend = yend,xend
-        x,y = y0,x0
-    else:
-        x = x0
-        y = y0
+    try:
+        k = abs((yend-y0)/(xend - x0))
+    except:
+        k = -1  #垂直直线
+    if k < 1:
+        twody = 2 * dy
+        twodymiusdx = 2 * (dy - dx)
+        if x0 > xend:
+            x = xend
+            y = yend
+            xend = x0
+        else:
+            x = x0
+            y = y0
+    elif k > 1:
+        twody = 2 * dx
+        twodymiusdx = 2 * (dx - dy)
+        if y0 > yend:
+            y = xend
+            x = yend
+            xend = y0
+        else:
+            x,y = x0,y0
+            xend,yend=yend,xend
+    elif k == 1.0:
+        x,y = x0,y0
+        while x <= xend:
+            antialiasing(x,y)
+            x += 1
+            y += 1
+        glEnd()
+        glFlush()
+        return
+    elif k == 0:
+        x,y = x0,y0
+        while x0 < xend:
+            antialiasing(x,y)
+            x += 1
+        glEnd()
+        glFlush()
+        return
+    elif k == -1:
+        y,x = x0,y0
+        while x0 < xend:
+            antialiasing(x,y)
+            x += 1
+        glEnd()
+        glFlush()
+        return
     antialiasing(x,y)
 
     while x < xend:
@@ -62,7 +96,11 @@ def init():
 
 
 def start():
-    bres(x[0],x[1],x[2],x[3],x[4])
+    if len(x) == 4:
+        bresenhamLine(x[0],x[1],x[2],x[3])
+    else:
+        bresenhamLine(x[0],x[1],x[2],x[3],x[4])
+
 glutInit()
 glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB)
 glutInitWindowSize(400,400)
