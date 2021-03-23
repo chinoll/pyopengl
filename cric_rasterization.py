@@ -2,20 +2,9 @@
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
-import colorsys
-import numpy as np
+from antialiasing import *
+
 x = []
-def antialiasing(x,y):
-    hsv = colorsys.rgb_to_hsv(255,255,255)[2] / 4
-    mask = (np.array([[1,2,1],[2,4,2],[1,2,1]]) * hsv).astype(np.int16)
-    x -= 1
-    y += 1
-    for i in range(3):
-        for j in range(3):
-            rgb = np.array(colorsys.hsv_to_rgb(0,0,mask[i][j]))/255
-            rgb = list(rgb)
-            glColor3f(rgb[0],rgb[1],rgb[2])
-            glVertex2i(x + j,y-i)
 
 def cric_bres(r,x0,y0):
     x = 0
