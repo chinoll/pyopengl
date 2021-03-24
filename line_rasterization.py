@@ -3,14 +3,14 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
 from antialiasing import *
-
+from math import pi
+from transfor import *
 x = []
 def bresenhamLine(x0,y0,xend,yend,width=1):
     dx = abs(xend - x0)
     dy = abs(yend - y0)
     p = 2 * dy - dx
     points = []
-    glBegin(GL_POINTS)
     try:
         k = abs((yend-y0)/(xend - x0))
     except:
@@ -93,10 +93,10 @@ def start():
         points = bresenhamLine(x[0],x[1],x[2],x[3])
     else:
         points = bresenhamLine(x[0],x[1],x[2],x[3],x[4])
-    #print(points)
+    print(points)
     i = [i[0] for i in points]
     j = [i[1] for i in points]
-    transforPolygan(i,j,100,100)
+    rotatePolygan(i,j,i[0],j[0],pi/2)
     glEnd()
     glFlush()
 

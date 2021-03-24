@@ -1,3 +1,8 @@
+from OpenGL.GL import *
+from OpenGL.GLU import *
+from OpenGL.GLUT import *
+import numpy as np
+import colorsys
 def antialiasing(x,y):
     hsv = colorsys.rgb_to_hsv(255,255,255)[2] / 128
     mask = (np.array([[96,112,96],[112,128,112],[96,112,96]]) * hsv).astype(np.int16)
