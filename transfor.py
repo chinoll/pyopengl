@@ -35,3 +35,22 @@ def rotatePolygan(x,y,tx,ty,theta):
     for point in points:
         antialiasing(point[0],point[1])
     return points
+
+def scalePolygan(x,y,sx,sy,xf,yf):
+    '''
+        将图元进行缩放
+        x:坐标x的集合
+        y:坐标y的集合
+        sx:坐标x的缩放比例
+        sy:坐标y的缩放比例
+        xf:缩放基准点x
+        yf:缩放基准点y
+    '''
+    points = []
+    for i in range(len(x)):
+        nx = x[i] * sx + xf*(1-sx)
+        ny = y[i] * sy + yf*(1-sy)
+        points.append((nx,ny))
+    for point in points:
+        antialiasing(point[0],point[1])
+    return points

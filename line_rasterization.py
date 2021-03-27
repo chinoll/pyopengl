@@ -96,7 +96,7 @@ def start():
     print(points)
     i = [i[0] for i in points]
     j = [i[1] for i in points]
-    rotatePolygan(i,j,i[0],j[0],pi/2)
+    scalePolygan(i,j,0.5,0.3,i[0],j[0])
     glEnd()
     glFlush()
 
